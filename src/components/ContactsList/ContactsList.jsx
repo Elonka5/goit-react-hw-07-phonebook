@@ -4,8 +4,9 @@ import {
   ContactStyled,
 } from './ContactsListstyled';
 import { useDispatch, useSelector } from 'react-redux';
-import { removeContact } from 'redux/contactsSlice';
+import { deleteContact } from 'components/services/contactsAPI';
 import { selectContacts, selectFilter } from 'redux/selectors';
+import { AiFillDelete } from 'react-icons/ai';
 
 export const ContactsList = () => {
   const contacts = useSelector(selectContacts);
@@ -18,18 +19,19 @@ export const ContactsList = () => {
       name.toLowerCase().includes(filter.toLowerCase().trim())
     );
   const handleDeleteContact = idContact => {
-    dispatch(removeContact(idContact));
+    dispatch(deleteContact(idContact));
   };
 
   const getfilteredContacts = filteredContacts();
 
   return (
     <ContactListStyled>
-      {getfilteredContacts.map(({ id, name, number }) => (
+      {getfilteredContacts.map(({ id, name, phone }) => (
         <ContactStyled key={id}>
-          {name}: {number}
+          {name}: {phone}
           <Buttons type="button" onClick={() => handleDeleteContact(id)}>
             Delete
+            <AiFillDelete size="14" />
           </Buttons>
         </ContactStyled>
       ))}
